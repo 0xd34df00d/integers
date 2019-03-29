@@ -40,19 +40,18 @@ VerifiedSucc ZTy where
   succSurjective (ZPos (S k)) = (ZPos k ** Refl)
   succSurjective (ZNeg k) = (ZNeg (S k) ** Refl)
 
-posInduction : { prop : ZTy -> Type } ->
-               (prf0 : prop ZZ) ->
-               (prfStep : (k : ZTy) -> prop k -> (prop (zs k), prop (zp k))) ->
-               (k : Nat) ->
-               prop (ZPos k)
+SidedInduction : (Nat -> ZTy) -> Type
+SidedInduction ctor = { prop : ZTy -> Type } ->
+                      (prf0 : prop ZZ) ->
+                      (prfStep : (k : ZTy) -> prop k -> (prop (zs k), prop (zp k))) ->
+                      (k : Nat) ->
+                      prop (ctor k)
+
+posInduction : SidedInduction ZPos
 posInduction prf0 prfStep Z = fst $ prfStep ZZ prf0
 posInduction prf0 prfStep (S k) = fst $ prfStep (ZPos k) (posInduction prf0 prfStep k)
 
-negInduction : { prop : ZTy -> Type } ->
-               (prf0 : prop ZZ) ->
-               (prfStep : (k : ZTy) -> prop k -> (prop (zs k), prop (zp k))) ->
-               (k : Nat) ->
-               prop (ZNeg k)
+negInduction : SidedInduction ZNeg
 negInduction prf0 prfStep Z = snd $ prfStep ZZ prf0
 negInduction prf0 prfStep (S k) = snd $ prfStep (ZNeg k) (negInduction prf0 prfStep k)
 
