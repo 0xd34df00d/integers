@@ -26,3 +26,10 @@ succPredId k = snd $ succSurjective k
 
 predSuccId : VerifiedSucc zTy => (k : zTy) -> zp (zs k) = k
 predSuccId k = succInjective _ _ $ snd $ succSurjective (zs k)
+
+interface VerifiedSucc ty => VerifiedZInt ty where
+  induction : { prop : ty -> Type } ->
+              (prf0 : prop ZInt.Interface.zz) ->
+              (prfStep : (k : ty) -> prop k -> (prop (zs k), prop (zp k))) ->
+              (k : ty) ->
+              prop k
