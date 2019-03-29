@@ -13,16 +13,9 @@ ztySucc (ZPos k) = ZPos (S k)
 ztySucc (ZNeg Z) = ZZ
 ztySucc (ZNeg (S k)) = ZNeg k
 
-ztyPred : ZTy -> ZTy
-ztyPred ZZ = ZNeg Z
-ztyPred (ZPos Z) = ZZ
-ztyPred (ZPos (S k)) = ZPos k
-ztyPred (ZNeg k) = ZNeg (S k)
-
 ZInt ZTy where
   zz = ZZ
   zs k = ztySucc k
-  zp k = ztyPred k
 
 VerifiedZInt ZTy where
   succInjective ZZ ZZ Refl = Refl
@@ -44,8 +37,3 @@ VerifiedZInt ZTy where
   succSurjective (ZPos Z) = (ZZ ** Refl)
   succSurjective (ZPos (S k)) = (ZPos k ** Refl)
   succSurjective (ZNeg k) = (ZNeg (S k) ** Refl)
-
-  succPredId ZZ = Refl
-  succPredId (ZPos Z) = Refl
-  succPredId (ZPos (S k)) = Refl
-  succPredId (ZNeg k) = Refl
