@@ -17,7 +17,7 @@ ZInt ZTy where
   zz = ZZ
   zs k = ztySucc k
 
-VerifiedZInt ZTy where
+VerifiedSucc ZTy where
   succInjective ZZ ZZ Refl = Refl
   succInjective ZZ (ZPos _) Refl impossible
   succInjective ZZ (ZNeg Z) Refl impossible

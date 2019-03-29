@@ -12,17 +12,17 @@ interface ZInt ty where
 
 %name ZInt k, k1, k2
 
-interface ZInt ty => VerifiedZInt ty where
+interface ZInt ty => VerifiedSucc ty where
   succInjective  : (k1, k2 : ty) -> (zs k1 = zs k2) -> k1 = k2
   succSurjective : (k : ty) -> (k' ** zs k' = k)
 
-%name VerifiedZInt k, k1, k2
+%name VerifiedSucc k, k1, k2
 
-zp : VerifiedZInt ty => ty -> ty
+zp : VerifiedSucc ty => ty -> ty
 zp k = fst $ succSurjective k
 
-succPredId : VerifiedZInt zTy => (k : zTy) -> zs (zp k) = k
+succPredId : VerifiedSucc zTy => (k : zTy) -> zs (zp k) = k
 succPredId k = snd $ succSurjective k
 
-predSuccId : VerifiedZInt zTy => (k : zTy) -> zp (zs k) = k
+predSuccId : VerifiedSucc zTy => (k : zTy) -> zp (zs k) = k
 predSuccId k = succInjective _ _ $ snd $ succSurjective (zs k)
