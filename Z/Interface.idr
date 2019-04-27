@@ -31,7 +31,7 @@ predSuccId k = succInjective (zp $ zs k) k $ snd $ succSurjective (zs k)
 
 interface VerifiedSucc ty => VerifiedZInt ty where
   induction : { prop : ty -> Type } ->
-              (prf0 : prop ZInt.Interface.zz) ->
+              (prf0 : (k : ty) -> (k `EqZ` ZInt.Interface.zz) -> prop k) ->
               (prfStep : (k : ty) -> prop k -> (prop (zs k), prop (zp k))) ->
               (k : ty) ->
               prop k

@@ -44,4 +44,10 @@ VerifiedSucc ZTy where
   succSurjective (MkZ m n) = (MkZ m (S n) ** MkEquiv $ plusSuccRightSucc m n)
 
 VerifiedZInt ZTy where
-  induction prf0 prfStep (MkZ m n) = ?rhs
+  induction prf0 prfStep (MkZ m n) with (sign $ MkZ m n)
+    induction prf0 prfStep (MkZ n n)     | (ZZero Refl)         = prf0 _ (zeroEquiv n)
+    induction prf0 prfStep (MkZ (S m) n) | (ZPos (LTESucc prf)) =
+      let
+        rec = prfStep (zp $ MkZ (S m) n)
+      in ?rhs
+    induction prf0 prfStep (MkZ m (S n)) | (ZNeg (LTESucc prf)) = ?rhs

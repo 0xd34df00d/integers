@@ -57,6 +57,6 @@ negInduction prf0 prfStep Z = snd $ prfStep ZZ prf0
 negInduction prf0 prfStep (S k) = snd $ prfStep (ZNeg k) (negInduction prf0 prfStep k)
 
 VerifiedZInt ZTy where
-  induction prf0 prfStep ZZ = prf0
-  induction prf0 prfStep (ZPos k) = posInduction prf0 prfStep k
-  induction prf0 prfStep (ZNeg k) = negInduction prf0 prfStep k
+  induction prf0 prfStep ZZ = prf0 ZZ Refl
+  induction prf0 prfStep (ZPos k) = posInduction (prf0 ZZ Refl) prfStep k
+  induction prf0 prfStep (ZNeg k) = negInduction (prf0 ZZ Refl) prfStep k
